@@ -8,12 +8,12 @@ from datetime import datetime
 
 class Detect_verify:
     def capture_live_faces(self):
-        counter = 0
+        counter = 1
         threshold = 10
+        encodings = dict()
         model_names = ["opencv", "ssd", "dlib", "mtcnn"]
         # face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
         cap = cv2.VideoCapture(0)
-        df = pd.read_csv("dataset/recorded_encodings/recorded_encode.csv")
 
         while True:
             cap.set(3, 640)     #set video width
@@ -30,14 +30,14 @@ class Detect_verify:
                 cv2.imshow("Detect Faces", self.frame)
 
             
-            if len(df["title"]) == 0: 
-                df = df._append([f"candidate {counter}", self.frame, str(datetime.now())])
+            if len(encodings) == 0: 
+                previous_encoding.update(self.frame)
                 counter += 1
 
             else:
                 try:
                     recent_face = df["encoding"].iloc[-1]
-                    if DeepFace.verify(recent_face, self.frame, model_name = "")["verified"] == True:
+                    if DeepFace.verify(recent_face, self.frame, model_name = "VGG-Face")["verified"] == True:
                         continue
 
                     else:
@@ -58,5 +58,3 @@ class Detect_verify:
         
 obj = Detect_verify()
 obj.capture_live_faces()
-
-

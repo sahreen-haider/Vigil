@@ -37,7 +37,7 @@ class Detect_verify:
             else:
                 try:
                     recent_face = df["encoding"].iloc[-1]
-                    if DeepFace.verify(recent_face, self.frame, model_name = "")["verified"] == True:
+                    if DeepFace.verify(recent_face, self.frame, model_name = "VGG-Face")["verified"] == True:
                         continue
 
                     else:

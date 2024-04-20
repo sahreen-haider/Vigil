@@ -21,7 +21,7 @@ class Detect_verify:
             ret, self.frame = cap.read()
             # using "SSD(single shot detector)" for its faster performance
             try:
-                self.detected_face = DeepFace.extract_faces(self.frame, detector_backend = "opencv")
+                self.detected_face = DeepFace.extract_faces(self.frame, detector_backend = "ssd")
                 faces = self.detected_face[0]["facial_area"]
                 cv2.rectangle(self.frame, (faces["x"],faces["y"]), (faces["x"]+faces["w"], faces["y"]+faces["h"]), (255, 0, 0), 2)
                 cv2.imshow("Detect Faces", self.frame)
@@ -37,7 +37,7 @@ class Detect_verify:
             else:
                 try:
                     recent_face = df["encoding"].iloc[-1]
-                    if DeepFace.verify(recent_face, self.frame, model_name = "")["verified"] == True:
+                    if DeepFace.verify(recent_face, self.frame, model_name = "VGG-Face")["verified"] == True:
                         continue
 
                     else:
@@ -53,7 +53,7 @@ class Detect_verify:
 
         cap.release() 
         cv2.destroyAllWindows()
-        df.to_csv("dataset/recorded_encodings/recorded_encode.csv")
+        return df
 
         
 obj = Detect_verify()
