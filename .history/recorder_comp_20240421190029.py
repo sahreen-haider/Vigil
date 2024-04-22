@@ -8,23 +8,21 @@ import json
 
 
 class Detect_verify:
+    global     encodings
+    
     def capture_live_faces(self):
         counter = 1
-        threshold = 10
-        encoding_data = []
         model_names = ["opencv", "ssd", "dlib", "mtcnn"]
         # face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
         cap = cv2.VideoCapture(0)
-        df = pd.read_csv("dataset/recorded_encodings/recorded_encode.csv")
-
+        encodings = dict()
         while True:
             cap.set(3, 640)     #set video width
-            cap.set(4, 480)     #set video height
+            cap.set(3, 640)     #set video height
             ret, self.frame = cap.read()
             # using "SSD(single shot detector)" for its faster performance
-            time_now = str(datetime.now())
             try:
-                self.detected_face = DeepFace.extract_faces(self.frame, detector_backend = model_names[1])
+                self.detected_face = DeepFace.extract_faces(self.frame, detector_backend = "ssd")
                 faces = self.detected_face[0]["facial_area"]
                 cv2.rectangle(self.frame, (faces["x"],faces["y"]), (faces["x"]+faces["w"], faces["y"]+faces["h"]), (255, 0, 0), 2)
                 cv2.imshow("Detect Faces", self.frame)
@@ -33,29 +31,31 @@ class Detect_verify:
                 cv2.imshow("Detect Faces", self.frame)
 
             
-            if len(encoding_data) == 0: 
-                encoding_data.update({"passenger":f"candidate {counter}", "encoding":self.frame, "Date":time_now[0], "Time":time_now[1]})
+            if len(encodings) == 0: 
+                encodings[f"passenger {counter}"] = self.frame
                 counter += 1
 
             else:
                 try:
-                    if DeepFace.verify(encoding_data.popitem()["encoding"], self.frame, model_name = "VGG-Face")["verified"] == True:
+                    if DeepFace.verify(encodings.popitem()[1], self.frame, model_name = "VGG-Face")["verified"] == True:
+                        print("it is the same person")
                         continue
 
                     else:
-                        encoding_data.update({"passenger":f"candidate {counter}", "encoding":self.frame, "Date":time_now[0], "Time":time_now[1]})
+                        encodings[f"candidate {counter}"] =  self.frame
+                        print("not the same person")
                         counter += 1
                 except:
                     continue
             
 
-            if cv2.waitKey(1) & 0xFF == ord("v"):
+            if len(encodings) == 3 or cv2.waitKey(1) & 0xFF == ord("q"):
                 break
-
-        with open("dataset/recorded_encodings/face_encodings.json", "w") as json_file:
-            json.dump(encoding_data, json_file, indent = 4)
-        
-        print("faces have been recorded")
+                
+        file_path = "dataset/recorded_encodings/face_encodings.txt"
+        print("no of persons", len(encodings))
+        with open(file_path, "a+") as text_file:
+            text_file.write(str(encodings))
         cap.release() 
         cv2.destroyAllWindows()
         
@@ -63,5 +63,3 @@ class Detect_verify:
         
 obj = Detect_verify()
 obj.capture_live_faces()
-
-

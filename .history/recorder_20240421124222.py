@@ -34,7 +34,7 @@ class Detect_verify:
 
             
             if len(encoding_data) == 0: 
-                encoding_data.update({"passenger":f"candidate {counter}", "encoding":self.frame, "Date":time_now[0], "Time":time_now[1]})
+                encoding_data.append({"passenger":f"candidate {counter}", "encoding":self.frame, "Date":time_now[0], "Time":time_now[1]})
                 counter += 1
 
             else:
@@ -43,7 +43,7 @@ class Detect_verify:
                         continue
 
                     else:
-                        encoding_data.update({"passenger":f"candidate {counter}", "encoding":self.frame, "Date":time_now[0], "Time":time_now[1]})
+                        encoding_data.append({"passenger":f"candidate {counter}", "encoding":self.frame, "Date":time_now[0], "Time":time_now[1]})
                         counter += 1
                 except:
                     continue
@@ -52,7 +52,7 @@ class Detect_verify:
             if cv2.waitKey(1) & 0xFF == ord("v"):
                 break
 
-        with open("dataset/recorded_encodings/face_encodings.json", "w") as json_file:
+        with open("dataset/recorded_encodings/face_encoings.json", "w") as json_file:
             json.dump(encoding_data, json_file, indent = 4)
         
         print("faces have been recorded")

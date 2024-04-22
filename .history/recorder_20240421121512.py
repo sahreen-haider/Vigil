@@ -9,9 +9,9 @@ import json
 
 class Detect_verify:
     def capture_live_faces(self):
-        counter = 1
+        counter = 0
         threshold = 10
-        encoding_data = []
+        encoding_data = dict()
         model_names = ["opencv", "ssd", "dlib", "mtcnn"]
         # face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
         cap = cv2.VideoCapture(0)
@@ -43,7 +43,7 @@ class Detect_verify:
                         continue
 
                     else:
-                        encoding_data.update({"passenger":f"candidate {counter}", "encoding":self.frame, "Date":time_now[0], "Time":time_now[1]})
+                        encoding_data.update([f"candidate {counter}", self.frame, str(datetime.now())])
                         counter += 1
                 except:
                     continue
@@ -52,13 +52,10 @@ class Detect_verify:
             if cv2.waitKey(1) & 0xFF == ord("v"):
                 break
 
-        with open("dataset/recorded_encodings/face_encodings.json", "w") as json_file:
-            json.dump(encoding_data, json_file, indent = 4)
-        
-        print("faces have been recorded")
+
         cap.release() 
         cv2.destroyAllWindows()
-        
+        df.to_csv("dataset/recorded_encodings/recorded_encode.csv")
 
         
 obj = Detect_verify()

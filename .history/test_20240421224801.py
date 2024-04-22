@@ -11,12 +11,11 @@
 
 
 # Create an initial dictionary
-dict_example = {}
+dict_example = {'a': 1, 'b': 2}
 
 # Update the dictionary with new key-value pairs
-dict_example.update({'a': 1})
-dict_example.update({'b': 2})
 dict_example.update({'c': 3})
 
 # Print the updated dictionary
 print(dict_example)
+print(dict_example.popitem()[1])

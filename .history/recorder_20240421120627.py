@@ -9,9 +9,9 @@ import json
 
 class Detect_verify:
     def capture_live_faces(self):
-        counter = 1
+        counter = 0
         threshold = 10
-        encoding_data = []
+        encoding_data = dict()
         model_names = ["opencv", "ssd", "dlib", "mtcnn"]
         # face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + "haarcascade_frontalface_default.xml")
         cap = cv2.VideoCapture(0)
@@ -22,7 +22,6 @@ class Detect_verify:
             cap.set(4, 480)     #set video height
             ret, self.frame = cap.read()
             # using "SSD(single shot detector)" for its faster performance
-            time_now = str(datetime.now())
             try:
                 self.detected_face = DeepFace.extract_faces(self.frame, detector_backend = model_names[1])
                 faces = self.detected_face[0]["facial_area"]
@@ -33,17 +32,18 @@ class Detect_verify:
                 cv2.imshow("Detect Faces", self.frame)
 
             
-            if len(encoding_data) == 0: 
-                encoding_data.update({"passenger":f"candidate {counter}", "encoding":self.frame, "Date":time_now[0], "Time":time_now[1]})
+            if len(df["title"]) == 0: 
+                df = df._append([f"candidate {counter}", self.frame, str(datetime.now())])
                 counter += 1
 
             else:
                 try:
-                    if DeepFace.verify(encoding_data.popitem()["encoding"], self.frame, model_name = "VGG-Face")["verified"] == True:
+                    recent_face = df["encoding"].iloc[-1]
+                    if DeepFace.verify(recent_face, self.frame, model_name = "VGG-Face")["verified"] == True:
                         continue
 
                     else:
-                        encoding_data.update({"passenger":f"candidate {counter}", "encoding":self.frame, "Date":time_now[0], "Time":time_now[1]})
+                        df = df._append([f"candidate {counter}", self.frame, str(datetime.now())])
                         counter += 1
                 except:
                     continue
@@ -52,13 +52,10 @@ class Detect_verify:
             if cv2.waitKey(1) & 0xFF == ord("v"):
                 break
 
-        with open("dataset/recorded_encodings/face_encodings.json", "w") as json_file:
-            json.dump(encoding_data, json_file, indent = 4)
-        
-        print("faces have been recorded")
+
         cap.release() 
         cv2.destroyAllWindows()
-        
+        df.to_csv("dataset/recorded_encodings/recorded_encode.csv")
 
         
 obj = Detect_verify()

@@ -12,20 +12,16 @@ class Recognize_verify:
             self.data = json_file.read()
 
     def verify_faces(self):
-        missing_list = []
         models = ['VGG-Face', 'Facenet', 'OpenFace', 'DeepFace', 'DeepID', 'Dlib']
-        for _ in self.data:
+        for _ in range(len(self.df)):
         # model = DeepFace.build(models)
-            # use the data_pool variable to set the path for pre-recorded samples
-            data_pool = "dataset/Pre_recorded_encodings" 
-            if DeepFace.find(img_path = _.popitem()[1], db_path = data_pool, detector_backend = models[0])["verified"] == True:
-                return _.popitem()[0], "has boarded the vehicle"
+            if DeepFace.find(img_path = self.df["encoding"].iloc[_], db_path = "dataset" , detector_backend = "ssd")["verified"] == True:
+                self.df[["status"]] = True
             else:
-                missing_list.append(_.popitem()[0])
+                self.df[["status"]] = True
 
             
-        for _ in missing_list:
-            print(_)
+        return
 
 
 obj = Recognize_verify()
