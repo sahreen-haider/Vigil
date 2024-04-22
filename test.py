@@ -1,7 +1,9 @@
 # import os
 # import numpy as np
-# import pandas as pd
-
+import pandas as pd
+import json
+import cv2
+import numpy as np
 
 # data = pd.DataFrame(columns = ["no", 'binary'])
 
@@ -11,12 +13,26 @@
 
 
 # Create an initial dictionary
-dict_example = {}
+# dict_example = {}
 
-# Update the dictionary with new key-value pairs
-dict_example.update({'a': 1})
-dict_example.update({'b': 2})
-dict_example.update({'c': 3})
+# # Update the dictionary with new key-value pairs
+# dict_example.update({'a': 1})
+# dict_example.update({'b': 2})
+# dict_example.update({'c': 3})
 
-# Print the updated dictionary
-print(dict_example)
+# # Print the updated dictionary
+# print(dict_example)
+# df = pd.read_csv('dataset/recorded_encodings/recorded_encode.csv')
+with open("dataset/recorded_encodings/face_encodings.json", "r") as f:
+    data = json.loads(f.read())
+    encoding = np.array(data["encoding"])
+
+print(type(encoding))
+cv2.imshow('live feed' ,encoding)
+# data = {
+#     "passenger": "zuhaib",
+#     "encoding": [1, 2, 3],
+#     "Date": "12/01/23",
+#     "Time": "12:01:12"
+# }
+# df = df._append(data, ignore_index=True)
