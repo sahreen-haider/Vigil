@@ -5,7 +5,6 @@ import json
 import cv2
 import numpy as np
 from deepface import DeepFace
-import matplotlib.pyplot as plt
 
 # data = pd.DataFrame(columns = ["no", 'binary'])
 
@@ -38,35 +37,22 @@ import matplotlib.pyplot as plt
 #     "Time": "12:01:12"
 # }
 # df = df._append(data, ignore_index=True)
-# cam = cv2.VideoCapture(0)
-# detected_face = []
-# 
-# while True:
-    # ret, frame = cam.read()
-# 
-    # try:
-detected_face = DeepFace.extract_faces("generated_data/Photo on 17-04-24 at 6.10 PM.jpg", detector_backend = "ssd")[0]["face"]
-# cv2.imshow(detected_face[0])
-# while True:
-#     cv2.imshow('d', detected_face[0]["face"])
+cam = cv2.VideoCapture(0)
+detected_face = []
 
-#     if cv2.waitKey(1) & 0xFF = ord("q"):
+while True:
+    ret, frame = cam.read()
 
-    # except Exception as E:
-        # cv2.imshow(frame)
-    # 
-    # if cv2.waitKey(1) & 0xFF == ord("q"):
-        # break
-# 
-# cv2.imshow("Frame", detected_face)
+    try:
+        detected_face = DeepFace.extract_faces(frame, detector_backend = "ssd")
+        cv2.imshow(frame)
 
+    except Exception as E:
+        cv2.imshow(frame)
+    
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
 
-# Assuming you have a NumPy array representing an image
-  # Example random image array, replace this with your own image array
-# Display the image
-plt.imshow(detected_face, cmap='gray')  # 'gray' colormap for grayscale images, remove cmap for color images
-plt.axis('off')  # Turn off axis
-plt.show()
-
+cv2.imshow("Frame", detected_face)
 
     

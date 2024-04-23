@@ -45,7 +45,7 @@ import matplotlib.pyplot as plt
     # ret, frame = cam.read()
 # 
     # try:
-detected_face = DeepFace.extract_faces("generated_data/Photo on 17-04-24 at 6.10 PM.jpg", detector_backend = "ssd")[0]["face"]
+detected_face = DeepFace.extract_faces("generated_data/Photo on 17-04-24 at 6.10 PM.jpg", detector_backend = "ssd")[0]["faces"]
 # cv2.imshow(detected_face[0])
 # while True:
 #     cv2.imshow('d', detected_face[0]["face"])
