@@ -26,26 +26,31 @@ class Detect_verify:
             try:
                 self.detected_face = DeepFace.extract_faces(self.frame, detector_backend = model_names[1])
                 faces = self.detected_face[0]["facial_area"]
-                self.detected_face = self.detected_face[0]["face"]
+                self.final_detected_face = self.detected_face[0]["face"]
                 cv2.rectangle(self.frame, (faces["x"],faces["y"]), (faces["x"]+faces["w"], faces["y"]+faces["h"]), (255, 0, 0), 2)
                 cv2.imshow("Detect Faces", self.frame)
-                print('completed try block')
+                print("block 1 try executed")
+
             
             except Exception as E:
                 cv2.imshow("Detect Faces", self.frame)
+                print("block 1 except executed")
 
             
             if len(encoding_data) == 0: 
-                encoding_data.update({f"candidate {counter}": self.detected_face.tolist(), f"Date {counter}":time_now[0], f"Time {counter}":time_now[1]})
+                encoding_data.update({f"candidate {counter}": self.frame.tolist(), f"Date {counter}":time_now[0], f"Time {counter}":time_now[1]})
                 counter += 1
+                print("block 2 part 1 executed")
 
             else:
                 # print(encoding_data[f"candidate {counter-1}"])
                 if DeepFace.verify(np.array(encoding_data[f"candidate {counter-1}"]), self.frame, model_name = "VGG-Face")["verified"] == True:
+                    print("block 2 part 2 executed")
                     continue
 
+
                 else:
-                    encoding_data.update({f"candidate {counter}": self.frame.tolist(), f"Date {counter}":time_now[0], f"Time {counter}":time_now[1]})
+                    encoding_data.update({f"candidate {counter}": self.frame, f"Date {counter}":time_now[0], f"Time {counter}":time_now[1]})
                     print('encoded next frame')
                     counter += 1
             
