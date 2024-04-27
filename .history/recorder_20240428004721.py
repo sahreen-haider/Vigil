@@ -37,7 +37,7 @@ class Detect_verify:
 
 
             if len(os.listdir("generated_data")) == 0: 
-                np.save(gen_path+f"candidate_{counter}.jpg", self.frame)
+                cv2.imwrite(gen_path+f"candidate_{counter}.jpg", self.frame)
                 counter += 1
 
 
@@ -47,7 +47,7 @@ class Detect_verify:
 
 
                 else:
-                    np.save(gen_path+f"candidate_{counter}.jpg", self.frame)
+                    cv2.imwrite(gen_path+f"candidate_{counter}.jpg", self.frame)
                     counter += 1    
 
             if cv2.waitKey(1) & 0xFF == ord("v"):
