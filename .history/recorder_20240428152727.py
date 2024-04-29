@@ -36,13 +36,13 @@ class Detect_verify:
                 continue
 
 
-            if len(os.listdir(gen_path+"recorded_encodings")) == 0: 
+            if len(os.listdir("recorded_encodings")) == 0: 
                 np.save(gen_path+f"recorded_encodings/candidate_{counter}", self.frame)
                 counter += 1
 
 
             else:
-                if DeepFace.verify(os.listdir(gen_path+"recorded_encodings")[-1], self.frame, model_name = "VGG-Face")["verified"] == True:
+                if DeepFace.verify(gen_path+os.listdir("recorded_encodings")[-1], self.frame, model_name = "VGG-Face")["verified"] == True:
                     continue
 
 

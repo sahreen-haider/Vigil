@@ -42,7 +42,7 @@ class Detect_verify:
 
 
             else:
-                if DeepFace.verify(os.listdir(gen_path+"recorded_encodings")[-1], self.frame, model_name = "VGG-Face")["verified"] == True:
+                if DeepFace.verify(gen_path+os.listdir("recorded_encodings")[-1], self.frame, model_name = "VGG-Face")["verified"] == True:
                     continue
 
 
