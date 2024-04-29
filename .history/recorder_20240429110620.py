@@ -10,7 +10,7 @@ from datetime import datetime
 
 class Detect_verify:
     def __init__(self):
-        self.model_names = ["opencv", "ssd", "Dlib", "mtcnn"]
+        self.model_names = ["opencv", "ssd", "dlib", "mtcnn"]
         self.gen_path = "dataset/"
 
     def from_source(self, path_source):
@@ -58,7 +58,7 @@ class Detect_verify:
         counter = 1
         for _ in self.encoding_data:
             try:
-                self.detected_face = DeepFace.extract_faces(_, detector_backend = self.model_names[0])
+                self.detected_face = DeepFace.extract_faces(_, detector_backend = self.model_names[-1])
                 faces = self.detected_face[0]["facial_area"]
                 self.final_detected_face = self.detected_face[0]["facial_area"]
                 cv2.rectangle(_, (faces["x"],faces["y"]), (faces["x"]+faces["w"], faces["y"]+faces["h"]), (255, 0, 0), 2)
@@ -75,7 +75,7 @@ class Detect_verify:
 
 
             else:
-                if DeepFace.verify(np.load(os.listdir(self.gen_path+"recorded_encodings")[-1]), _, model_name = self.model_names[1])["verified"] == True:
+                if DeepFace.verify(os.listdir(self.gen_path+"recorded_encodings")[-1], _, model_name = "VGG-Face")["verified"] == True:
                     continue
 
 

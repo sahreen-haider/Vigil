@@ -23,4 +23,4 @@ from deepface import DeepFace
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
 
-print(DeepFace.verify(np.load("dataset/recorded_encodings/candidate_1.npy"), "generated_data/Photo on 17-04-24 at 6.10 PM 3.jpg", model_name = "VGG-Face", detector_backend="opencv"))
+DeepFace.verify("dataset/recorded_encodings/candidate_1.npy", "generated_data/Photo on 17-04-24 at 6.10 PM 3.jpg", model_name="ssd")

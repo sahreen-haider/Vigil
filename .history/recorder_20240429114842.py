@@ -75,7 +75,7 @@ class Detect_verify:
 
 
             else:
-                if DeepFace.verify(np.load(os.listdir(self.gen_path+"recorded_encodings")[-1]), _, model_name = self.model_names[1])["verified"] == True:
+                if DeepFace.verify(np.load(os.listdir(self.gen_path+"recorded_encodings")[-1]).astype(float).tolist(), _, model_name = self.model_names[1])["verified"] == True:
                     continue
 
 
