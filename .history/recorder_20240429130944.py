@@ -76,7 +76,7 @@ class Detect_verify:
 
             else:
                 # file_loader = np.load(os.listdir(self.gen_path+"recorded_encodings")[-1])
-                if DeepFace.verify(np.load(self.gen_path+"recorded_encodings/" + os.listdir(self.gen_path+"recorded_encodings")[-1]), _, model_name = self.model_names[-1])["verified"] == True:
+                if DeepFace.verify(os.listdir("dataset/recorded_encodings")[-1], _, model_name = self.model_names[1])["verified"] == True:
                     continue
 
 

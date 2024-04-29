@@ -10,7 +10,7 @@ from datetime import datetime
 
 class Detect_verify:
     def __init__(self):
-        self.model_names = ["opencv", "ssd", "Dlib", "mtcnn", "VGG-Face"]
+        self.model_names = ["opencv", "ssd", "Dlib", "mtcnn"]
         self.gen_path = "dataset/"
 
     def from_source(self, path_source):
@@ -75,8 +75,8 @@ class Detect_verify:
 
 
             else:
-                # file_loader = np.load(os.listdir(self.gen_path+"recorded_encodings")[-1])
-                if DeepFace.verify(np.load(self.gen_path+"recorded_encodings/" + os.listdir(self.gen_path+"recorded_encodings")[-1]), _, model_name = self.model_names[-1])["verified"] == True:
+                file_loader = np.load(os.listdir(self.gen_path+"recorded_encodings")[-1])
+                if DeepFace.verify(os.listdir("dataset/recorded_encodings")[-1], _, model_name = self.model_names[1])["verified"] == True:
                     continue
 
 
