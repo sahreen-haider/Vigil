@@ -23,4 +23,21 @@ from deepface import DeepFace
 # cv2.waitKey(0)
 # cv2.destroyAllWindows()
 
-print(DeepFace.verify(np.load("dataset/recorded_encodings/candidate_1.npy"), "generated_data/Photo on 17-04-24 at 6.10 PM 3.jpg", model_name = "VGG-Face", detector_backend="opencv"))
+# print(DeepFace.verify(np.load("dataset/recorded_encodings/candidate_1.npy"), "generated_data/Photo on 17-04-24 at 6.10 PM 3.jpg", model_name = "VGG-Face", detector_backend="opencv"))
+
+im = np.load('/Users/zuhaib/Code/iQ/vigil/dataset/recorded_encodings/candidate_5.npy')
+cv2.imshow('Image', im)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+# a = np.load('dataset/recorded_encodings/candidate_4.npy').flatten()
+# b = np.load('dataset/recorded_encodings/candidate_5.npy').flatten()
+
+# dot_product = np.dot(a, b)
+# magnitude_A = np.linalg.norm(a)
+# magnitude_B = np.linalg.norm(b)
+
+# cosine_similarity = dot_product / (magnitude_A * magnitude_B)
+# print(f"Cosine Similarity using NumPy: {np.round(cosine_similarity, decimals=1)}")
+
+# print(a.shape)
