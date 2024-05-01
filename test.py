@@ -25,10 +25,10 @@ from deepface import DeepFace
 
 # print(DeepFace.verify(np.load("dataset/recorded_encodings/candidate_1.npy"), "generated_data/Photo on 17-04-24 at 6.10 PM 3.jpg", model_name = "VGG-Face", detector_backend="opencv"))
 
-im = np.load('/Users/zuhaib/Code/iQ/vigil/dataset/recorded_encodings/candidate_5.npy')
-cv2.imshow('Image', im)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# im = np.load('/Users/zuhaib/Code/iQ/vigil/dataset/recorded_encodings/candidate_5.npy')
+# cv2.imshow('Image', im)
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
 
 # a = np.load('dataset/recorded_encodings/candidate_4.npy').flatten()
 # b = np.load('dataset/recorded_encodings/candidate_5.npy').flatten()
@@ -41,3 +41,10 @@ cv2.destroyAllWindows()
 # print(f"Cosine Similarity using NumPy: {np.round(cosine_similarity, decimals=1)}")
 
 # print(a.shape)
+
+ext = DeepFace.extract_faces("/Users/zuhaib/Code/iQ/vigil/dataset/img.png", detector_backend = 'ssd')
+# print(ext)
+faces = ext[0]["face"]
+cv2.imshow('imag', faces)
+cv2.waitKey(0) 
+cv2.destroyAllWindows()

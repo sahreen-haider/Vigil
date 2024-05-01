@@ -28,13 +28,9 @@ class Recognize_verify:
 
                 # print(list(set(os.listdir("dataset/Pre_recorded_encodings")) - set("dataset/recorded_encodings")))
 
-                    print("mising persons: ", [_ for _ in os.listdir("dataset/Pre_recorded_encodings") if _ not in os.listdir("dataset/recorded_encodings")])        
+                    missing_list = [_ for _ in os.listdir("dataset/Pre_recorded_encodings") if _ not in os.listdir("dataset/recorded_encodings")]
                 except:
                     continue   
             else:
                 continue        
-        print("people who are present: ", present_list, "not registered:",not_registered)
-
-# if __name__ != '__main__':
-#     obj = Recognize_verify()
-#     obj.verify_faces()
+        return present_list, not_registered, missing_list

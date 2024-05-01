@@ -27,21 +27,21 @@ class Detect_verify:
             if not ret:
                 break
 
-            # try:
-            #     self.detected_face = DeepFace.extract_faces(frames, detector_backend = self.model_names[1])
-            #     faces = self.detected_face[0]["facial_area"]
-            #     cv2.rectangle(frames, (faces["x"],faces["y"]), (faces["x"]+faces["w"], faces["y"]+faces["h"]), (255, 0, 0), 2)
-            #     cv2.imshow("Detect Faces", frames)
+            try:
+                faces = DeepFace.extract_faces(frames, detector_backend = self.model_names[1])[0]["facial_area"]
+                cv2.rectangle(frames, (faces["x"],faces["y"]), (faces["x"]+faces["w"], faces["y"]+faces["h"]), (255, 0, 0), 2)
+                cv2.imshow("Detect Faces", frames)
             
-            # except Exception as E:
-            #     cv2.imshow("Detect Faces", frames)
+            except Exception as E:
+                cv2.imshow("Detect Faces", frames)
             
-            cv2.imshow('Source Video', frames)
+            # cv2.imshow('Source Video', frames)
 
             self.encoding_data.append(frames)
 
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 break
+        # return self.encoding_data
 
 
 
@@ -55,26 +55,26 @@ class Detect_verify:
             cam.set(4, 480)     #set video height
             ret, frames = cam.read()
 
-            # try:
-            #     self.detected_face = DeepFace.extract_faces(frames, detector_backend = self.model_names[1])
-            #     faces = self.detected_face[0]["facial_area"]
-            #     cv2.rectangle(frames, (faces["x"],faces["y"]), (faces["x"]+faces["w"], faces["y"]+faces["h"]), (255, 0, 0), 2)
-            #     cv2.imshow("Detect Faces", frames)
+            try:
+                faces = DeepFace.extract_faces(frames, detector_backend = self.model_names[1])[0]["facial_area"]
+                cv2.rectangle(frames, (faces["x"],faces["y"]), (faces["x"]+faces["w"], faces["y"]+faces["h"]), (255, 0, 0), 2)
+                # cv2.imshow("Detect Faces", frames)
             
-            # except Exception as E:
-            #     cv2.imshow("Detect Faces", frames)
+            except Exception as E:
+                # cv2.imshow("Detect Faces", frames)
+                continue
 
             self.encoding_data.append(frames)
             
-            cv2.imshow("Live Feed", frames)
-
-
+            # cv2.imshow("Live Feed", frames)
             # using "SSD(single shot detector)" for its faster performance
             if cv2.waitKey(1) & 0xFF == ord("q"):
                 break
 
         cam.release() 
         cv2.destroyAllWindows()
+
+        # return self.encoding_data
 
 
     def process_frames(self):
@@ -106,7 +106,8 @@ class Detect_verify:
                 continue
 
 obj = Detect_verify()
-obj.from_source('dataset/vids/MOVIE.mp4')
+# obj.from_source('/Users/zuhaib/Code/iQ/vigil/dataset/vids/MOVIE.mp4')
+obj.capture_live()
 obj.process_frames()
 
 obj = Recognize_verify()
