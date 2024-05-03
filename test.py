@@ -42,9 +42,13 @@ from deepface import DeepFace
 
 # print(a.shape)
 
-ext = DeepFace.extract_faces("/Users/zuhaib/Code/iQ/vigil/dataset/img.png", detector_backend = 'ssd')
-# print(ext)
-faces = ext[0]["face"]
-cv2.imshow('imag', faces)
-cv2.waitKey(0) 
-cv2.destroyAllWindows()
+enumerate_passengers = DeepFace.find(img_path = f"dataset/recorded_encodings/candidate_1.jpg", 
+                db_path = 'dataset/Pre_recorded_encodings', model_name = 'Facenet512')[0]["identity"].to_list()
+# enum = enumerate_passengers[0].split(".")[0]
+# if len(enumerate_passengers) >= 1:
+print(enumerate_passengers[0])
+passenger_name = enumerate_passengers[0].split('/')[-1].split('.')[0]
+print(passenger_name)
+# present_list.append(passenger_name[-1].split('.')[0])
+# else:
+# not_registered.append(_)
